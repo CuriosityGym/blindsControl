@@ -16,14 +16,14 @@
 #define HALFSTEP 8
 
 // Motor pin definitions
-#define motorPin1  14     // IN1 on the ULN2003 driver 1
-#define motorPin2  0     // IN2 on the ULN2003 driver 1
-#define motorPin3  4     // IN3 on the ULN2003 driver 1
-#define motorPin4  5     // IN4 on the ULN2003 driver 1
+//#define motorPin1  14     // IN1 on the ULN2003 driver 1
+//#define motorPin2  12     // IN2 on the ULN2003 driver 1
+//#define motorPin3  4     // IN3 on the ULN2003 driver 1
+//#define motorPin4  5     // IN4 on the ULN2003 driver 1
 
 byte motorDirection=CW;
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48
-AccelStepper stepper1(HALFSTEP, motorPin1, motorPin3, motorPin2, motorPin4);
+AccelStepper stepper1(AccelStepper::DRIVER, 14, 12);
 fauxmoESP fauxmo;
 
 
@@ -58,10 +58,10 @@ void wifiSetup() {
 
 void setup() {
   
-  stepper1.setMaxSpeed(1000.0);
-  stepper1.setAcceleration(100.0);
-  stepper1.setSpeed(200);
-  stepper1.moveTo(20000);
+  stepper1.setMaxSpeed(200.0);
+  stepper1.setAcceleration(1000.0);
+  stepper1.setSpeed(100);
+  //stepper1.moveTo(20000);
   // Init serial port and clean garbage
   Serial.begin(SERIAL_BAUDRATE);
   Serial.println();
@@ -89,12 +89,12 @@ void setup() {
    
    if(state)
    {
-     stepper1.moveTo(2000);
+     stepper1.moveTo(1200);
      digitalWrite(LED, LOW);
    }
    if(!state)
    {
-      stepper1.moveTo(-2000);
+      stepper1.moveTo(-1200);
       digitalWrite(LED, HIGH);
    }
    
@@ -122,6 +122,9 @@ void loop() {
   
 
 }
+
+
+
 
 
 
